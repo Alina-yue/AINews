@@ -43,6 +43,7 @@ type LocalNewsItem = {
   title?: string;
   link?: string;
   published?: string;
+  published_iso?: string;
   summary?: string;
   source?: string;
   fetched_at?: string;
@@ -209,7 +210,8 @@ async function readLocalNewsJson(): Promise<NewsItem[]> {
           title,
           summary: stripHtml(item.summary ?? "") || "暂无摘要，点击查看原文。",
           imageUrl: FALLBACK_IMAGE,
-          publishedAt: item.published ?? new Date().toISOString(),
+          publishedAt: item.published_iso ?? item.published ?? new Date().toISOString(),
+          originalPublished: item.published,
           readMoreUrl,
           source: item.source ?? "RSS"
         };
@@ -277,8 +279,7 @@ export const rssNewsProvider: NewsProvider = {
     const localNews = await readLocalNewsJson();
     if (localNews.length > 0) {
       return dedupeByLink(localNews)
-        .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-        .slice(0, 30);
+        .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
     }
 
     const results = await Promise.allSettled(rssSources.map((source) => fetchSource(source)));
@@ -290,6 +291,6 @@ export const rssNewsProvider: NewsProvider = {
       (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     );
 
-    return sorted.slice(0, 30);
+    return sorted;
   }
 };

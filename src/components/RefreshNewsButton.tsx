@@ -7,6 +7,8 @@ type RefreshApiResponse = {
   ok: boolean;
   message: string;
   error?: string;
+  newCount?: number;
+  totalCount?: number;
 };
 
 export function RefreshNewsButton() {
@@ -24,13 +26,10 @@ export function RefreshNewsButton() {
         return;
       }
 
-      setStatusText("刷新完成，正在更新页面...");
+      setStatusText(result.message || "刷新成功");
       startTransition(() => {
         router.refresh();
       });
-      window.setTimeout(() => {
-        setStatusText("刷新完成。若暂无新资讯，列表内容可能保持不变。");
-      }, 1200);
     } catch {
       setStatusText("网络异常，刷新失败。");
     }

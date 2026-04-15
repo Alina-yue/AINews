@@ -1,5 +1,158 @@
 [
   {
+    "title": "小红书开源 Relax：面向全模态 Agentic 的异步 RL 训练引擎",
+    "link": "https://www.oschina.net/news/421163",
+    "published": "Wed, 15 Apr 2026 14:50:32 +0800",
+    "published_iso": "2026-04-15T14:50:32+08:00",
+    "summary": "小红书 AI 平台团队宣布正式开源 Relax —— 一款面向全模态与 Agentic 场景设计的大模型强化学习训练引擎。 根据介绍，Relax 基于 Megatron-LM 和 SGLang 高性能后端构建，以协同设计为核心理念，将全模态数据支持、服务化容错架构和异步训练流水线三个维度统一解决。在 Qwen3-Omni-30B 上，Relax 验证了图像、文本、音...",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-15T06:53:24.404798+00:00"
+  },
+  {
+    "title": "nginx 1.30.0 发布",
+    "link": "https://www.oschina.net/news/421148/nginx-1-30-0-released",
+    "published": "Wed, 15 Apr 2026 14:29:46 +0800",
+    "published_iso": "2026-04-15T14:29:46+08:00",
+    "summary": "nginx-1.30.0 稳定版现已已发布，融合了 1.29.x 主分支中的所有变更，提供了许多新功能，例如 Multipath TCP (MPTCP)。 上个月发布的 Nginx 1.29.7 版本实现了 Multipath TCP 功能，支持单个数据连接同时利用多条网络路径，从而提升吞吐量并实现连接间的无缝切换。 Nginx 1.30 稳定版新增了对 HTTP 103 Early Hints 的支...",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-15T06:53:24.404798+00:00"
+  },
+  {
+    "title": "Anthropic 推出 Claude Mythos 预览版，强化网络安全，仅限合作方访问",
+    "link": "https://www.infoq.cn/article/0ERlUO96S3XjvTgekpru?utm_source=rss&utm_medium=article",
+    "published": "Wed, 15 Apr 2026 14:00:00 GMT",
+    "published_iso": "2026-04-15T14:00:00+00:00",
+    "summary": "<div align=\"right\"><a href=\"https://www.infoq.cn/article/0ERlUO96S3XjvTgekpru?utm_source=rss&amp;utm_medium=article\">点击查看原文></a></div>",
+    "source": "InfoQ AI",
+    "fetched_at": "2026-04-15T06:53:22.328084+00:00"
+  },
+  {
+    "title": "2026 年 3 月国产数据库大事记",
+    "link": "https://my.oschina.net/u/4559794/blog/19576238",
+    "published": "Wed, 15 Apr 2026 13:56:14 +0800",
+    "published_iso": "2026-04-15T13:56:14+08:00",
+    "summary": "光大银行 1598.38 万采购 GoldenDB 原厂现场服务；九有数据库完成 A + 轮融资；天谋科技 IoTDB 入选国家级首版次软件名录；矩阵起源开源业内首个 “Git for Memory” Agent 可信记忆框架 Memoria；OceanBase 4.4.2 LTS 版本发布，TP/AP/AI 一体化融合；openGauss 7.0.0-RC3 正式发布，支持 AI 能力集成方案 oGAI；崖山数...",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-15T06:53:24.404798+00:00"
+  },
+  {
+    "title": "阿里云宣布对 DDoS 防护产品进行调价",
+    "link": "https://www.oschina.net/news/421040",
+    "published": "Wed, 15 Apr 2026 10:22:44 +0800",
+    "published_iso": "2026-04-15T10:22:44+08:00",
+    "summary": "阿里云最新发布“DDoS防护产品调价公告”公告表示，为统一产品定价规范，决定于2026年7月15日起对DDoS原生防护2.0（包年包月）、DDoS高防（中国内地）以及DDoS高防（非中国内地）商品的弹性95功能进行价格调整。 具体调价内容如下：",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-15T05:55:21.180386+00:00"
+  },
+  {
+    "title": "技术日报｜Karpathy 的 Claude 优化配置单日揽星 9263 登顶，hermes-agent 总量突破 8.4 万",
+    "link": "https://www.oschina.net/news/421038",
+    "published": "Wed, 15 Apr 2026 10:15:46 +0800",
+    "published_iso": "2026-04-15T10:15:46+08:00",
+    "summary": "🌟 TrendForge 每日精选 - 发现最具潜力的开源项目 📊 今日共收录 13 个热门项目 🌐 智能中文翻译版 - 项目描述已自动翻译，便于理解 🏆 今日最热项目 Top 10 🥇 forrestchang/andrej-karpathy-skills 项目简介: 一个独立的CLAUDE.md文件，用于改进Claude代码行为，源自Andrej Karpathy对大型语言模型编码常见...",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-15T05:55:21.180386+00:00"
+  },
+  {
+    "title": "KubeVirt v1.8 发布",
+    "link": "https://www.oschina.net/news/421031/kubevirt-1-8-released",
+    "published": "Wed, 15 Apr 2026 10:03:52 +0800",
+    "published_iso": "2026-04-15T10:03:52+08:00",
+    "summary": "KubeVirt 社区宣布 v1.8 正式发布，该版本与 Kubernetes v1.35 保持对齐。 这是自引入 VEP（Virt Enhancement Proposal）流程以来的第三个版本。经历了早期的一些波动和持续迭代之后，该流程正在逐步稳定，并在社区中形成节奏。本次版本的提案数量显著增长，这一趋势预计将持续。 一些核心更新内容如下： SIG Compute 机...",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-15T05:55:21.180386+00:00"
+  },
+  {
+    "title": "小蚂蚁云 XiaoMaYi-ArcoVue 单体敏捷开发框架 v1.2.0 发布",
+    "link": "https://www.oschina.net/news/420999",
+    "published": "Wed, 15 Apr 2026 08:35:56 +0800",
+    "published_iso": "2026-04-15T08:35:56+08:00",
+    "summary": "v1.2.0 更新内容： 1、优化核心类库功能； 2、优化 OSS 云存储功能； 3、修复近期用户反馈的 BUG； 项目介绍 基于 SpringBoot3、SpringSecurity、MybatisPlus、Vue3、TypeScript、Vite、ArcoDesign、MySQL 等技术栈实现的单体前后端分离后台管理系统；后端基于 Java 语言采用 SpringBoot3、SpringSecurity、MybatisPlus...",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-15T06:57:15.807224+00:00"
+  },
+  {
+    "title": "DjangoAdmin 敏捷开发框架 FastAPI+Layui 版本 v2.7.0 发布",
+    "link": "https://www.oschina.net/news/420994",
+    "published": "Wed, 15 Apr 2026 08:00:55 +0800",
+    "published_iso": "2026-04-15T08:00:55+08:00",
+    "summary": "v2.7.0 更新内容： 1、新增全局参数配置； 2、新增到出 Excel 功能； 3、新增导入 Excel 功能； 4、新增上传导入功能组件； 5、新增导出下载功能组件； 6、新增上传文件功能； 7、新增读取 env 配置文件扩展； 8、优化角色权限节点参数设置； 9、优化非超管用户权限设置问题； 10、修复近期用户反馈的问题； 一款 Python...",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-15T06:57:15.807224+00:00"
+  },
+  {
+    "title": "浏览器原地变龙虾！Chrome上线Skills，技能一键复用帮你干活",
+    "link": "https://www.qbitai.com/2026/04/401389.html",
+    "published": "Wed, 15 Apr 2026 05:46:10 +0000",
+    "published_iso": "2026-04-15T05:46:10+00:00",
+    "summary": "浏览器纷纷Agent化",
+    "source": "量子位",
+    "fetched_at": "2026-04-15T06:53:20.572416+00:00"
+  },
+  {
+    "title": "Beetl 模板引擎 3.21，首个 Idea 插件国内模版引擎",
+    "link": "https://www.oschina.net/news/420938/beetlsql-3-21-released",
+    "published": "Tue, 14 Apr 2026 23:02:46 +0800",
+    "published_iso": "2026-04-14T23:02:46+08:00",
+    "summary": "Beetl 研发自 2010 年，国内流行 Java 模板引擎，Beetl是国内唯一支持在线调试以及Idea插件的模版&脚本引擎。 文档 源码 在线体验 模板性能测试 表达式引擎性能测试 性能优化指南 本次发布包括 新增length函数，获取数组或者集合长度 新增castBigDecimal函数，能把number或者字符串转为BigDecimal 新增Idea插件，适配版本...",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-15T06:57:15.807771+00:00"
+  },
+  {
+    "title": "AI 应用平台 deepchat 发布 v20260414：集成 tinyflow 工作流、适配 postgresql 数据库",
+    "link": "https://www.oschina.net/news/420914",
+    "published": "Tue, 14 Apr 2026 21:40:24 +0800",
+    "published_iso": "2026-04-14T21:40:24+08:00",
+    "summary": "项目地址：https://gitee.com/noday/deepchat 官网：http://www.6661943.xyz/ deepchat 探索大模型企业应用落地场景。包括但不限于知识库、问数、ChatBI、Office 助手、智能客服、资料分类于分析等等，对接了国内外厂家的大模型提供商。 本次更新： 智能体增加工作流类型，使用tinyflow实现 提供MySQL和PostgreSQL数据库...",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-15T06:57:15.807771+00:00"
+  },
+  {
+    "title": "智元发布机器人应用部署平台 Genie Studio Agent",
+    "link": "https://www.oschina.net/news/420717",
+    "published": "Tue, 14 Apr 2026 14:27:54 +0800",
+    "published_iso": "2026-04-14T14:27:54+08:00",
+    "summary": "智元宣布推出面向具身作业场景的零代码应用平台 —— Genie Studio Agent。一套贯穿机器人从开发到部署、从运行到优化的全生命周期软件基础设施，覆盖VLA模型、强化学习、视觉感知、运动控制、导航规划等核心能力。 平台搭载开箱即用的标准化解决方案，在底层技术SDK基础上，封装了直观的可视化界面与丰富的行业场景模板...",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-15T06:57:15.807771+00:00"
+  },
+  {
+    "title": "“集市”的终结？当开源 AI 只剩下载：一项 280 万个仓库的实证研究揭示了什么",
+    "link": "https://www.oschina.net/news/420715",
+    "published": "Tue, 14 Apr 2026 14:19:57 +0800",
+    "published_iso": "2026-04-14T14:19:57+08:00",
+    "summary": "当 Meta 发布 Llama、DeepSeek 开放 R1 权重时，整个技术社区都在欢呼AI 开源时代来了。但一个关键问题被忽略了：把模型权重挂到网上供人下载，就等于&quot;开源&quot;了吗？如果没有人能真正参与到模型的共同开发中，那这种&quot;开源&quot;与免费发放产品试用装之间，究竟有什么区别？ 在传统开源软件（OSS）的黄金年代，Eric Raymond 提出...",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-15T06:57:15.807771+00:00"
+  },
+  {
+    "title": "构建 Coding Agent 的飞轮：Feedback Loop、Benchmark、Agent Engineers｜QCon北京",
+    "link": "https://www.infoq.cn/article/ylG1DXoCyyBF65MTycHk?utm_source=rss&utm_medium=article",
+    "published": "Tue, 14 Apr 2026 10:00:00 GMT",
+    "published_iso": "2026-04-14T10:00:00+00:00",
+    "summary": "<div align=\"right\"><a href=\"https://www.infoq.cn/article/ylG1DXoCyyBF65MTycHk?utm_source=rss&amp;utm_medium=article\">点击查看原文></a></div>",
+    "source": "InfoQ AI",
+    "fetched_at": "2026-04-15T05:55:19.170774+00:00"
+  },
+  {
+    "title": "开源安全工具 Trivy 遭供应链攻击，引发行业紧急响应",
+    "link": "https://www.infoq.cn/article/TO5Qtp6GDufPrNOsoeMx?utm_source=rss&utm_medium=article",
+    "published": "Tue, 14 Apr 2026 10:00:00 GMT",
+    "published_iso": "2026-04-14T10:00:00+00:00",
+    "summary": "<div align=\"right\"><a href=\"https://www.infoq.cn/article/TO5Qtp6GDufPrNOsoeMx?utm_source=rss&amp;utm_medium=article\">点击查看原文></a></div>",
+    "source": "InfoQ AI",
+    "fetched_at": "2026-04-15T05:55:19.170774+00:00"
+  },
+  {
+    "title": "实测腾讯云 AndonQ：号称比肩原厂技术专家的  “领域虾”，到底有多能打？",
+    "link": "https://www.infoq.cn/article/dALdAi3OqCkdbba1Nh1r?utm_source=rss&utm_medium=article",
+    "published": "Tue, 14 Apr 2026 09:30:00 GMT",
+    "published_iso": "2026-04-14T09:30:00+00:00",
+    "summary": "<div align=\"right\"><a href=\"https://www.infoq.cn/article/dALdAi3OqCkdbba1Nh1r?utm_source=rss&amp;utm_medium=article\">点击查看原文></a></div>",
+    "source": "InfoQ AI",
+    "fetched_at": "2026-04-15T05:55:19.170774+00:00"
+  },
+  {
     "title": "荣耀PC家族大爆发！荣耀“打洲本”“养虾本”集中亮相",
     "link": "https://www.qbitai.com/2026/04/401202.html",
     "published": "Tue, 14 Apr 2026 13:12:17 +0000",

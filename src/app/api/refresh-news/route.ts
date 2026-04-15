@@ -81,6 +81,17 @@ function runFetchScript(pythonExec: string): Promise<{ stdout: string; stderr: s
   });
 }
 
+function parseResultOutput(output: string): { newCount: number; totalCount: number } {
+  const match = output.match(/##RESULT##\s*new_count=(\d+)\s*total_count=(\d+)/);
+  if (match) {
+    return {
+      newCount: parseInt(match[1], 10) || 0,
+      totalCount: parseInt(match[2], 10) || 0
+    };
+  }
+  return { newCount: 0, totalCount: 0 };
+}
+
 export async function POST() {
   const pythonExec = resolvePythonExecutable();
   if (!pythonExec) {
@@ -92,11 +103,15 @@ export async function POST() {
 
   try {
     const result = await runFetchScript(pythonExec);
+    const output = result.stdout || result.stderr;
+    const { newCount, totalCount } = parseResultOutput(output);
     revalidatePath("/");
     return NextResponse.json({
       ok: true,
-      message: "资讯刷新成功",
-      output: (result.stdout || result.stderr).slice(-2000)
+      message: `刷新成功：新增 ${newCount} 条（总量 ${totalCount}）`,
+      newCount,
+      totalCount,
+      output: output.slice(-2000)
     });
   } catch (error) {
     return NextResponse.json(
