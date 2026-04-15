@@ -5,4 +5,5 @@ export type NewsItem = {
   imageUrl: string;
   publishedAt: string;
   readMoreUrl: string;
+  source?: string;
 };

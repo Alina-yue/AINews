@@ -1,4 +1,6 @@
 import { XMLParser } from "fast-xml-parser";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 import { NewsItem } from "@/types/news";
 
@@ -32,6 +34,23 @@ const parser = new XMLParser({
   ignoreAttributes: false,
   attributeNamePrefix: "@_"
 });
+const LOCAL_JSON_FILE = join(process.cwd(), "ai_news.json");
+const LOCAL_META_FILE = join(process.cwd(), "ai_news_meta.json");
+const FALLBACK_IMAGE =
+  "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80";
+
+type LocalNewsItem = {
+  title?: string;
+  link?: string;
+  published?: string;
+  summary?: string;
+  source?: string;
+  fetched_at?: string;
+};
+
+type LocalMeta = {
+  last_refreshed_at?: string;
+};
 
 function stripHtml(input: string): string {
   return input
@@ -104,27 +123,58 @@ function mapItem(item: ParsedRssItem, source: RssSource, index: number): NewsIte
     summary: cleanSummary || "暂无摘要，点击查看原文。",
     imageUrl: extractImageUrl(item, source.defaultImageUrl),
     publishedAt: item.pubDate ?? item.published ?? new Date().toISOString(),
-    readMoreUrl
+    readMoreUrl,
+    source: source.name
   };
 }
 
-async function fetchSource(source: RssSource): Promise<NewsItem[]> {
-  const response = await fetch(source.url, {
-    next: { revalidate: 1800 }
-  });
-  if (!response.ok) {
-    throw new Error(`Failed to fetch RSS: ${source.name}`);
+function matchesSourceFilter(item: ParsedRssItem, source: RssSource): boolean {
+  if (!source.includePathPrefixes || source.includePathPrefixes.length === 0) {
+    return true;
   }
 
-  const xml = await response.text();
-  const parsed = parser.parse(xml) as ParsedRss;
-  const channelItems = toArray(parsed.rss?.channel?.item);
-  const atomItems = toArray(parsed.feed?.entry);
-  const items = channelItems.length > 0 ? channelItems : atomItems;
+  const link = extractLink(item.link).toLowerCase();
+  if (!link) {
+    return false;
+  }
 
-  return items
-    .map((item, index) => mapItem(item, source, index))
-    .filter((item): item is NewsItem => item !== null);
+  return source.includePathPrefixes.some((prefix) => link.startsWith(prefix.toLowerCase()));
+}
+
+async function fetchSource(source: RssSource): Promise<NewsItem[]> {
+  const candidateUrls = [source.url, ...(source.fallbackUrls ?? [])];
+  const errors: string[] = [];
+
+  for (const url of candidateUrls) {
+    try {
+      const response = await fetch(url, {
+        next: { revalidate: 1800 }
+      });
+      if (!response.ok) {
+        errors.push(`${url} -> HTTP ${response.status}`);
+        continue;
+      }
+
+      const xml = await response.text();
+      const parsed = parser.parse(xml) as ParsedRss;
+      const channelItems = toArray(parsed.rss?.channel?.item);
+      const atomItems = toArray(parsed.feed?.entry);
+      const items = channelItems.length > 0 ? channelItems : atomItems;
+      const mapped = items
+        .filter((item) => matchesSourceFilter(item, source))
+        .map((item, index) => mapItem(item, source, index))
+        .filter((item): item is NewsItem => item !== null);
+
+      if (mapped.length > 0) {
+        return mapped;
+      }
+      errors.push(`${url} -> no parsable entries`);
+    } catch (error) {
+      errors.push(`${url} -> ${(error as Error).message}`);
+    }
+  }
+
+  throw new Error(`Failed to fetch RSS: ${source.name}; ${errors.join(" | ")}`);
 }
 
 function dedupeByLink(items: NewsItem[]): NewsItem[] {
@@ -138,8 +188,99 @@ function dedupeByLink(items: NewsItem[]): NewsItem[] {
   });
 }
 
+async function readLocalNewsJson(): Promise<NewsItem[]> {
+  try {
+    const fileContent = await readFile(LOCAL_JSON_FILE, "utf-8");
+    const parsed = JSON.parse(fileContent) as LocalNewsItem[];
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    return parsed
+      .map((item, index) => {
+        const title = stripHtml(item.title ?? "");
+        const readMoreUrl = (item.link ?? "").trim();
+        if (!title || !readMoreUrl) {
+          return null;
+        }
+
+        return {
+          id: `local-${index}-${readMoreUrl}`,
+          title,
+          summary: stripHtml(item.summary ?? "") || "暂无摘要，点击查看原文。",
+          imageUrl: FALLBACK_IMAGE,
+          publishedAt: item.published ?? new Date().toISOString(),
+          readMoreUrl,
+          source: item.source ?? "RSS"
+        };
+      })
+      .filter((item): item is NewsItem => item !== null);
+  } catch {
+    return [];
+  }
+}
+
+export async function getLastRefreshTime(): Promise<string | null> {
+  try {
+    const metaContent = await readFile(LOCAL_META_FILE, "utf-8");
+    const meta = JSON.parse(metaContent) as LocalMeta;
+    if (meta.last_refreshed_at) {
+      const ts = new Date(meta.last_refreshed_at).getTime();
+      if (Number.isFinite(ts)) {
+        return new Intl.DateTimeFormat("zh-CN", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
+        }).format(new Date(ts));
+      }
+    }
+  } catch {
+    // Fall through to legacy timestamps in ai_news.json.
+  }
+
+  try {
+    const fileContent = await readFile(LOCAL_JSON_FILE, "utf-8");
+    const parsed = JSON.parse(fileContent) as LocalNewsItem[];
+    if (!Array.isArray(parsed) || parsed.length === 0) {
+      return null;
+    }
+
+    const timestamps = parsed
+      .map((item) => item.fetched_at)
+      .filter((value): value is string => Boolean(value))
+      .map((value) => new Date(value).getTime())
+      .filter((value) => Number.isFinite(value));
+
+    if (timestamps.length === 0) {
+      return null;
+    }
+
+    const latest = new Date(Math.max(...timestamps));
+    return new Intl.DateTimeFormat("zh-CN", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    }).format(latest);
+  } catch {
+    return null;
+  }
+}
+
 export const rssNewsProvider: NewsProvider = {
   async getLatestNews(): Promise<NewsItem[]> {
+    const localNews = await readLocalNewsJson();
+    if (localNews.length > 0) {
+      return dedupeByLink(localNews)
+        .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+        .slice(0, 30);
+    }
+
     const results = await Promise.allSettled(rssSources.map((source) => fetchSource(source)));
     const merged = results
       .filter((result): result is PromiseFulfilledResult<NewsItem[]> => result.status === "fulfilled")

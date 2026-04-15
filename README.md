@@ -4,7 +4,7 @@
 
 这是一个用于 AI 资讯聚合展示的前端骨架，首页使用卡片列表展示新闻，支持桌面端和移动端响应式布局。
 
-当前数据已接入 RSS 源聚合，后续可在 `src/services/news` 目录继续扩展为数据库或爬虫任务数据源。
+当前数据已接入 RSS 源聚合，并与 `fetch_ai_news.py` 关联：页面会优先读取脚本生成的 `ai_news.json`，再回退到实时 RSS 抓取。对于部分站点，抓取策略为“官方 RSS 优先，失败自动尝试多个 RSSHub 实例”。
 
 ## 目录结构
 
@@ -45,8 +45,24 @@ npm install
 npm run dev
 ```
 
+## Python 抓取脚本联动
+
+1. 安装依赖
+
+```bash
+pip install feedparser
+```
+
+2. 执行抓取（每个源前10条）
+
+```bash
+python fetch_ai_news.py
+```
+
+3. 刷新网页即可看到 `ai_news.json` 中的抓取结果（若文件不存在则自动回退到实时 RSS）。
+
 ## 已接入与后续建议
 
-- 当前已使用 `rssProvider.ts` 聚合多个资讯源并做去重排序
+- 当前已使用 `rssProvider.ts` 聚合多个资讯源并做去重排序，且支持读取 `ai_news.json`
 - 可新增 `crawlerProvider.ts`，实现 `NewsProvider` 接口并接入数据库
 - 建议增加服务端缓存与定时任务，避免每次请求都实时抓取

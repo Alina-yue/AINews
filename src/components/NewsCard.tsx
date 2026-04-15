@@ -21,7 +21,10 @@ export function NewsCard({ article }: NewsCardProps) {
         />
       </div>
       <div className="news-card-content">
-        <p className="news-card-time">{formatPublishTime(article.publishedAt)}</p>
+        <p className="news-card-time">
+          {article.source ? `${article.source} · ` : ""}
+          {formatPublishTime(article.publishedAt)}
+        </p>
         <h2 className="news-card-title">{article.title}</h2>
         <p className="news-card-summary">{article.summary}</p>
         <Link href={article.readMoreUrl} target="_blank" className="news-card-link">
