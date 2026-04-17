@@ -6,11 +6,11 @@ import { parseDate } from '@/lib/date';
 interface NewsItem {
   id: string;
   title: string;
-  link: string;
+  readMoreUrl: string;
   source: string;
-  pubDate: string;
+  publishedAt: string;
   imageUrl: string;
-  description: string;
+  summary: string;
 }
 
 const DEFAULT_IMAGE = 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=AI%20technology%20news%20abstract%20background&image_size=landscape_16_9';
@@ -79,7 +79,7 @@ export async function POST() {
       allNews.push(...news);
     }
 
-    allNews.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
+    allNews.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
     const elapsed = Date.now() - startTime;
     console.log(`Fetched ${allNews.length} news items in ${elapsed}ms`);
