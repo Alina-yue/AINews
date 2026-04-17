@@ -1,3 +1,55 @@
+export function parseDate(dateStr: string): string {
+  if (!dateStr) {
+    return new Date().toISOString();
+  }
+
+  try {
+    const date = new Date(dateStr);
+    if (!isNaN(date.getTime())) {
+      return date.toISOString();
+    }
+  } catch (e) {
+    console.log('Date parsing error:', e);
+  }
+
+  const rfc2822Regex = /(\w{3}), (\d{2}) (\w{3}) (\d{4}) (\d{2}):(\d{2}):(\d{2}) (\+|-)(\d{4})/;
+  const match = dateStr.match(rfc2822Regex);
+  if (match) {
+    const day = match[2];
+    const month = match[3];
+    const year = match[4];
+    const hours = match[5];
+    const minutes = match[6];
+    const seconds = match[7];
+    
+    const monthMap: Record<string, number> = {
+      'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+      'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+    };
+    
+    const monthNum = monthMap[month];
+    if (monthNum !== undefined) {
+      const date = new Date(Date.UTC(parseInt(year), monthNum, parseInt(day), parseInt(hours), parseInt(minutes), parseInt(seconds)));
+      return date.toISOString();
+    }
+  }
+
+  const simpleDateRegex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/;
+  const simpleMatch = dateStr.match(simpleDateRegex);
+  if (simpleMatch) {
+    return dateStr;
+  }
+
+  const dateTimeRegex = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})(?::(\d{2}))?/;
+  const dateTimeMatch = dateStr.match(dateTimeRegex);
+  if (dateTimeMatch) {
+    const seconds = dateTimeMatch[6] || '00';
+    return `${dateTimeMatch[1]}-${dateTimeMatch[2]}-${dateTimeMatch[3]}T${dateTimeMatch[4]}:${dateTimeMatch[5]}:${seconds}Z`;
+  }
+
+  return new Date().toISOString();
+}
+
 export function formatPublishTime(isoString: string, originalPublished?: string): string {
   if (originalPublished && originalPublished.trim()) {
     const parsedDate = parseOriginalDate(originalPublished);

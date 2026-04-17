@@ -1,205 +1,101 @@
-import { spawn, spawnSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { NextResponse } from 'next/server';
+import axios from 'axios';
+import * as cheerio from 'cheerio';
+import { parseDate } from '@/lib/date';
 
-import { revalidatePath } from "next/cache";
-import { NextResponse } from "next/server";
+interface NewsItem {
+  id: string;
+  title: string;
+  link: string;
+  source: string;
+  pubDate: string;
+  imageUrl: string;
+  description: string;
+}
 
-export const runtime = "nodejs";
+const DEFAULT_IMAGE = 'https://neeko-copilot.bytedance.net/api/text_to_image?prompt=AI%20technology%20news%20abstract%20background&image_size=landscape_16_9';
 
-const PYTHON_CANDIDATES = [
-  process.env.PYTHON_PATH,
-  "C:/Users/X1 YOGA/AppData/Local/Programs/Python/Python312/python.exe",
-  "python",
-  "py"
-].filter((item): item is string => Boolean(item));
+const SOURCES = [
+  { name: '量子位', url: 'https://www.qbitai.com/feed' },
+  { name: 'InfoQ AI', url: 'https://www.infoq.cn/feed/topic/71' },
+  { name: 'OSCHINA AI', url: 'https://www.oschina.net/feed/topic/ai' },
+];
 
-function canRunPython(candidate: string): boolean {
+async function fetchRSS(url: string, sourceName: string): Promise<NewsItem[]> {
   try {
-    const result = spawnSync(candidate, ["--version"], {
-      windowsHide: true,
-      encoding: "utf-8"
-    });
-    return result.status === 0;
-  } catch {
-    return false;
-  }
-}
+    const response = await axios.get(url, { timeout: 15000 });
+    const xml = response.data;
+    const $ = cheerio.load(xml, { xmlMode: true });
+    const items: NewsItem[] = [];
 
-function resolvePythonExecutable(): string | null {
-  for (const candidate of PYTHON_CANDIDATES) {
-    if (candidate.includes(":/") || candidate.includes(":\\")) {
-      if (existsSync(candidate) && canRunPython(candidate)) {
-        return candidate;
-      }
-      continue;
-    }
-    if (canRunPython(candidate)) {
-      return candidate;
-    }
-  }
-  return null;
-}
-
-function runFetchScript(pythonExec: string): Promise<{ stdout: string; stderr: string }> {
-  return new Promise((resolve, reject) => {
-    const scriptPath = join(process.cwd(), "fetch_ai_news.py");
-    const child = spawn(pythonExec, [scriptPath], {
-      cwd: process.cwd(),
-      windowsHide: true
-    });
-
-    let stdout = "";
-    let stderr = "";
-
-    const timeout = setTimeout(() => {
-      child.kill();
-      reject(new Error("执行抓取脚本超时（120秒）"));
-    }, 120_000);
-
-    child.stdout.on("data", (chunk) => {
-      stdout += String(chunk);
-    });
-
-    child.stderr.on("data", (chunk) => {
-      stderr += String(chunk);
-    });
-
-    child.on("error", (error) => {
-      clearTimeout(timeout);
-      reject(error);
-    });
-
-    child.on("close", (code) => {
-      clearTimeout(timeout);
-      if (code === 0) {
-        resolve({ stdout, stderr });
-      } else {
-        reject(new Error(stderr || stdout || `脚本执行失败，退出码: ${code}`));
-      }
-    });
-  });
-}
-
-function parseResultOutput(output: string): { newCount: number; totalCount: number } {
-  const match = output.match(/##RESULT##\s*new_count=(\d+)\s*total_count=(\d+)/);
-  if (match) {
-    return {
-      newCount: parseInt(match[1], 10) || 0,
-      totalCount: parseInt(match[2], 10) || 0
-    };
-  }
-  return { newCount: 0, totalCount: 0 };
-}
-
-function stripHtml(text: string): string {
-  return text.replace(/<[^>]*>/g, "").trim();
-}
-
-function generateId(url: string, source: string): string {
-  let h = 0;
-  for (let i = 0; i < url.length; i++) {
-    h = (h << 5) - h + url.charCodeAt(i);
-    h = h & h;
-  }
-  const urlHash = Math.abs(h).toString(16);
-  
-  h = 0;
-  for (let i = 0; i < source.length; i++) {
-    h = (h << 5) - h + source.charCodeAt(i);
-    h = h & h;
-  }
-  const sourceHash = Math.abs(h).toString(16);
-  
-  return `news-${urlHash}-${sourceHash}`;
-}
-
-function readNewsJson(): any[] {
-  const newsPath = join(process.cwd(), "ai_news.json");
-  const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80";
-  
-  if (existsSync(newsPath)) {
-    try {
-      const content = readFileSync(newsPath, "utf-8");
-      const data = JSON.parse(content);
+    $('item').each((_, element) => {
+      const title = $(element).find('title').text().trim();
+      const link = $(element).find('link').text().trim();
+      const pubDate = $(element).find('pubDate').text().trim();
+      const description = $(element).find('description').text().trim();
       
-      if (Array.isArray(data)) {
-        return data.map((item: any) => {
-          const title = stripHtml(item.title ?? "");
-          const readMoreUrl = (item.link ?? "").trim();
-          
-          if (!title || !readMoreUrl) {
-            return null;
-          }
-          
-          return {
-            id: generateId(readMoreUrl, item.source || ""),
-            title,
-            summary: stripHtml(item.summary ?? "") || "暂无摘要，点击查看原文。",
-            imageUrl: (item.image_url as string | undefined) || FALLBACK_IMAGE,
-            publishedAt: item.published_iso ?? item.published ?? new Date().toISOString(),
-            originalPublished: item.published,
-            readMoreUrl,
-            source: item.source ?? "RSS"
-          };
-        }).filter((item: any) => item !== null);
+      let imageUrl = '';
+      const contentEncoded = $(element).find('content\\:encoded, encoded').text();
+      if (contentEncoded) {
+        const imgMatch = contentEncoded.match(/<img[^>]+src="([^"]+)"/);
+        if (imgMatch) {
+          imageUrl = imgMatch[1];
+        }
       }
-      return [];
-    } catch {
-      return [];
-    }
-  }
-  return [];
-}
+      if (!imageUrl) {
+        const descMatch = description.match(/<img[^>]+src="([^"]+)"/);
+        if (descMatch) {
+          imageUrl = descMatch[1];
+        }
+      }
 
-function readMetaJson(): { last_refreshed_at?: string } {
-  const metaPath = join(process.cwd(), "ai_news_meta.json");
-  if (existsSync(metaPath)) {
-    try {
-      const content = readFileSync(metaPath, "utf-8");
-      return JSON.parse(content);
-    } catch {
-      return {};
-    }
+      const parsedDate = parseDate(pubDate);
+
+      items.push({
+        id: `${sourceName}-${link}`,
+        title,
+        link,
+        source: sourceName,
+        pubDate: parsedDate,
+        imageUrl: imageUrl || DEFAULT_IMAGE,
+        description,
+      });
+    });
+
+    return items;
+  } catch (error) {
+    console.error(`Failed to fetch ${sourceName}:`, error);
+    return [];
   }
-  return {};
 }
 
 export async function POST() {
-  const pythonExec = resolvePythonExecutable();
-  if (!pythonExec) {
-    return NextResponse.json(
-      { ok: false, message: "未找到可用的 Python 解释器，请设置 PYTHON_PATH。" },
-      { status: 500 }
-    );
-  }
-
   try {
-    const result = await runFetchScript(pythonExec);
-    const output = result.stdout || result.stderr;
-    const { newCount, totalCount } = parseResultOutput(output);
-    revalidatePath("/");
+    const allNews: NewsItem[] = [];
+    const startTime = Date.now();
 
-    const articles = readNewsJson();
-    const meta = readMetaJson();
+    for (const source of SOURCES) {
+      const news = await fetchRSS(source.url, source.name);
+      allNews.push(...news);
+    }
+
+    allNews.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
+
+    const elapsed = Date.now() - startTime;
+    console.log(`Fetched ${allNews.length} news items in ${elapsed}ms`);
 
     return NextResponse.json({
       ok: true,
-      message: `刷新成功：新增 ${newCount} 条（总量 ${totalCount}）`,
-      newCount,
-      totalCount,
-      articles,
-      lastRefreshedAt: meta.last_refreshed_at || new Date().toISOString(),
-      output: output.slice(-2000)
+      message: `刷新成功！共获取 ${allNews.length} 条资讯`,
+      articles: allNews,
+      lastRefreshedAt: new Date().toISOString(),
     });
   } catch (error) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message: "资讯刷新失败",
-        error: error instanceof Error ? error.message : "未知错误"
-      },
-      { status: 500 }
-    );
+    console.error('Error refreshing news:', error);
+    return NextResponse.json({
+      ok: false,
+      message: '刷新失败',
+      error: '服务器内部错误，请稍后重试',
+    }, { status: 500 });
   }
 }
