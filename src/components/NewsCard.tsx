@@ -14,17 +14,15 @@ type NewsCardProps = {
   showReadTime?: boolean;
   onRemove?: (id: string) => void;
   isNew?: boolean;
+  showFavorite?: boolean;
 };
 
-export function NewsCard({ article, showReadTime = false, onRemove, isNew = false }: NewsCardProps) {
+export function NewsCard({ article, showReadTime = false, onRemove, isNew = false, showFavorite = false }: NewsCardProps) {
   const [isRead, setIsRead] = useState(false);
   const [readTime, setReadTime] = useState<string | null>(null);
   const [showNewIndicator, setShowNewIndicator] = useState(isNew && !isRead);
   const [imageUrl, setImageUrl] = useState(article.imageUrl || DEFAULT_IMAGE);
-
-  const handleImageError = () => {
-    setImageUrl(DEFAULT_IMAGE);
-  };
+  const [isFavorited, setIsFavorited] = useState(false);
 
   useEffect(() => {
     const historyData = localStorage.getItem("readingHistory") || "{}";
@@ -35,6 +33,31 @@ export function NewsCard({ article, showReadTime = false, onRemove, isNew = fals
       setShowNewIndicator(false);
     }
   }, [article.id]);
+
+  useEffect(() => {
+    const favoritesData = localStorage.getItem("favorites") || "{}";
+    const favorites = JSON.parse(favoritesData);
+    setIsFavorited(!!favorites[article.id]);
+  }, [article.id]);
+
+  const handleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const favoritesData = localStorage.getItem("favorites") || "{}";
+    const favorites = JSON.parse(favoritesData);
+    
+    if (favorites[article.id]) {
+      delete favorites[article.id];
+      setIsFavorited(false);
+    } else {
+      favorites[article.id] = {
+        article: article,
+        addedAt: new Date().toISOString()
+      };
+      setIsFavorited(true);
+    }
+    
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  };
 
   const handleClick = () => {
     const historyData = localStorage.getItem("readingHistory") || "{}";
@@ -54,6 +77,10 @@ export function NewsCard({ article, showReadTime = false, onRemove, isNew = fals
     if (onRemove) {
       onRemove(article.id);
     }
+  };
+
+  const handleImageError = () => {
+    setImageUrl(DEFAULT_IMAGE);
   };
 
   return (
@@ -92,6 +119,15 @@ export function NewsCard({ article, showReadTime = false, onRemove, isNew = fals
           >
             阅读更多
           </Link>
+          {showFavorite && (
+            <button 
+              className={`news-card-favorite ${isFavorited ? 'news-card-favorite-active' : ''}`} 
+              onClick={handleFavorite}
+              title={isFavorited ? '取消收藏' : '收藏'}
+            >
+              ♥
+            </button>
+          )}
           {onRemove && (
             <button 
               className="news-card-remove" 

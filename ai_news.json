@@ -1,21 +1,61 @@
 [
   {
-    "title": "Claude 背刺用户，国产大模型谁能顶上？",
-    "link": "https://my.oschina.net/u/4487475/blog/19577856",
-    "published": "Thu, 16 Apr 2026 15:55:07 +0800",
-    "published_iso": "2026-04-16T15:55:07+08:00",
-    "summary": "2026 年 4 月 14 日，Anthropic 在 Claude Support 帮助页面悄然上线身份验证说明文档 —— 这是主流 AI 应用中首家大规模实施 KYC 的案例。",
-    "source": "OSCHINA AI",
-    "fetched_at": "2026-04-16T12:45:31.267646+00:00"
+    "title": "借助 Cortex Code 加速构建：全面开放，轻松应对更复杂任务 ｜ 技术趋势",
+    "link": "https://www.infoq.cn/article/eZmMIRcKHQ9KR791b8lF?utm_source=rss&utm_medium=article",
+    "published": "Fri, 17 Apr 2026 19:59:11 GMT",
+    "published_iso": "2026-04-17T19:59:11+00:00",
+    "summary": "<div align=\"right\"><a href=\"https://www.infoq.cn/article/eZmMIRcKHQ9KR791b8lF?utm_source=rss&amp;utm_medium=article\">点击查看原文></a></div>",
+    "source": "InfoQ AI",
+    "fetched_at": "2026-04-17T13:13:19.164325+00:00",
+    "image_url": "https://static001.infoq.cn/resource/image/e6/1c/e6043037a5298074d721cd23d47f741c.jpeg"
   },
   {
-    "title": ":sparkles:软件授权管理系统客户端模拟器 v1.0.1 版本发布",
-    "link": "https://www.oschina.net/news/423053",
-    "published": "Thu, 16 Apr 2026 15:41:13 +0800",
-    "published_iso": "2026-04-16T15:41:13+08:00",
-    "summary": "LicenseManager客户端模拟器v1.0.1版本发布 LicenseManager客户端模拟器 v1.0.1 正式发布。本次更新带来许可证本地编辑、公钥动态更新等重要功能，并修复若干缺陷。 更新亮点 本地许可证创建与修改 在 LMClientSimulator GUI 客户端中新增「创建/修改许可证」功能，可通过图形界面直接创建或编辑本地 license.lic 授权文...",
+    "title": "试点走向规模化盈利：生成式 AI 与智能体 AI 的 ROI 兑现路径 ｜ 技术趋势",
+    "link": "https://www.infoq.cn/article/TilQABTIBywUBmxJAFNG?utm_source=rss&utm_medium=article",
+    "published": "Fri, 17 Apr 2026 19:35:02 GMT",
+    "published_iso": "2026-04-17T19:35:02+00:00",
+    "summary": "<div align=\"right\"><a href=\"https://www.infoq.cn/article/TilQABTIBywUBmxJAFNG?utm_source=rss&amp;utm_medium=article\">点击查看原文></a></div>",
+    "source": "InfoQ AI",
+    "fetched_at": "2026-04-17T13:13:19.101243+00:00",
+    "image_url": "https://static001.infoq.cn/resource/image/bb/e5/bb819362b79e0c2fb8bf5ef8ca53a9e5.png"
+  },
+  {
+    "title": "智能体企业架构浮现：数据、模型、系统之外的控制平面｜ 技术趋势",
+    "link": "https://www.infoq.cn/article/q0DODc1eoaE6xWUNA9ZG?utm_source=rss&utm_medium=article",
+    "published": "Fri, 17 Apr 2026 19:20:35 GMT",
+    "published_iso": "2026-04-17T19:20:35+00:00",
+    "summary": "<div align=\"right\"><a href=\"https://www.infoq.cn/article/q0DODc1eoaE6xWUNA9ZG?utm_source=rss&amp;utm_medium=article\">点击查看原文></a></div>",
+    "source": "InfoQ AI",
+    "fetched_at": "2026-04-17T13:13:19.227306+00:00",
+    "image_url": "https://static001.infoq.cn/resource/image/77/2e/7740c8f0711c741e149bf2b5efdb2a2e.png"
+  },
+  {
+    "title": "Ant Design 6.3.6 发布，企业级 UI 设计语言和 React 实现",
+    "link": "https://www.oschina.net/news/430752/ant-design-6-3-6-released",
+    "published": "Fri, 17 Apr 2026 17:13:10 +0800",
+    "published_iso": "2026-04-17T17:13:10+08:00",
+    "summary": "Ant Design 是阿里巴巴开源的一套企业级 UI 设计语言和 React 组件库。Ant Design 6.3.6 现已发布，主要更新内容如下： 修复 InputNumber 禁用步进按钮仍显示悬浮样式的问题。 #57592 修复 Space.Addon 在紧凑布局中展示中文等 CJK 内容时会换行的问题。 #57622 修复 Cascader 菜单项长选项文本的省略样式问题。 #57540...",
     "source": "OSCHINA AI",
-    "fetched_at": "2026-04-16T12:45:31.408632+00:00"
+    "fetched_at": "2026-04-17T13:13:18.822236+00:00"
+  },
+  {
+    "title": "Grafana 13.0.1 发布，系统指标监控与分析平台",
+    "link": "https://www.oschina.net/news/430739/grafana-13-0-1-released",
+    "published": "Fri, 17 Apr 2026 16:48:43 +0800",
+    "published_iso": "2026-04-17T16:48:43+08:00",
+    "summary": "Grafana 是一个用于监控和可观察性的开源平台，可视化来自 Prometheus、Loki、Elasticsearch、InfluxDB、Postgres 等多个来源的指标、日志等。 Grafana 13.0.1 现已正式发布，主要更新内容如下： Features and enhancements Dashboard：在 V1 → V2 转换时保留用户时区偏好设置 #122673 Provisioning：在拉取请求评论中包...",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-17T13:13:18.817737+00:00"
+  },
+  {
+    "title": "宁王飘了！日赚2.3亿，回应比亚迪“闪充”：跟我学的，构不成挑战",
+    "link": "https://www.qbitai.com/2026/04/401719.html",
+    "published": "Thu, 16 Apr 2026 08:25:48 +0000",
+    "published_iso": "2026-04-16T08:25:48+00:00",
+    "summary": "市值跻身A股前三",
+    "source": "量子位",
+    "fetched_at": "2026-04-16T12:45:33.397473+00:00",
+    "image_url": "https://i.qbitai.com/wp-content/uploads/2026/04/1c30620e4f19468a14100f8038c5a93f.png"
   },
   {
     "title": "Anthropic 的论文探讨了大语言模型中类情绪机制对行为的影响",
@@ -38,14 +78,22 @@
     "image_url": "https://static001.infoq.cn/resource/image/ab/d2/ab4babee77ec0af9e8b92d5dac2bb0d2.png"
   },
   {
-    "title": "宁王飘了！日赚2.3亿，回应比亚迪“闪充”：跟我学的，构不成挑战",
-    "link": "https://www.qbitai.com/2026/04/401719.html",
-    "published": "Thu, 16 Apr 2026 08:25:48 +0000",
-    "published_iso": "2026-04-16T08:25:48+00:00",
-    "summary": "市值跻身A股前三",
-    "source": "量子位",
-    "fetched_at": "2026-04-16T12:45:33.397473+00:00",
-    "image_url": "https://i.qbitai.com/wp-content/uploads/2026/04/1c30620e4f19468a14100f8038c5a93f.png"
+    "title": ":sparkles:软件授权管理系统客户端模拟器 v1.0.1 版本发布",
+    "link": "https://www.oschina.net/news/423053",
+    "published": "Thu, 16 Apr 2026 15:41:13 +0800",
+    "published_iso": "2026-04-16T15:41:13+08:00",
+    "summary": "LicenseManager客户端模拟器v1.0.1版本发布 LicenseManager客户端模拟器 v1.0.1 正式发布。本次更新带来许可证本地编辑、公钥动态更新等重要功能，并修复若干缺陷。 更新亮点 本地许可证创建与修改 在 LMClientSimulator GUI 客户端中新增「创建/修改许可证」功能，可通过图形界面直接创建或编辑本地 license.lic 授权文...",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-16T12:45:31.408632+00:00"
+  },
+  {
+    "title": "Claude 背刺用户，国产大模型谁能顶上？",
+    "link": "https://my.oschina.net/u/4487475/blog/19577856",
+    "published": "Thu, 16 Apr 2026 15:55:07 +0800",
+    "published_iso": "2026-04-16T15:55:07+08:00",
+    "summary": "2026 年 4 月 14 日，Anthropic 在 Claude Support 帮助页面悄然上线身份验证说明文档 —— 这是主流 AI 应用中首家大规模实施 KYC 的案例。",
+    "source": "OSCHINA AI",
+    "fetched_at": "2026-04-16T12:45:31.267646+00:00"
   },
   {
     "title": "蚂蚁灵波开源LingBot-Map：仅需一个 RGB 摄像头，就能让机器人“理解”真实世界",

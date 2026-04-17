@@ -12,6 +12,14 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'i.qbitai.com',
+      },
+      {
+        protocol: 'http',
+        hostname: 'i.qbitai.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'static001.infoq.cn',
       },
       {
@@ -29,6 +37,30 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'mp.toutiao.com',
+      },
+      {
+        protocol: 'http',
+        hostname: 'mp.toutiao.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img1.sinaimg.cn',
+      },
+      {
+        protocol: 'http',
+        hostname: 'img1.sinaimg.cn',
+      },
+      {
+        protocol: 'https',
+        hostname: 'p3.pstatp.com',
+      },
+      {
+        protocol: 'http',
+        hostname: 'p3.pstatp.com',
       },
     ],
   },
