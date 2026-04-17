@@ -54,11 +54,11 @@ async function fetchRSS(url: string, sourceName: string): Promise<NewsItem[]> {
       items.push({
         id: `${sourceName}-${link}`,
         title,
-        link,
+        readMoreUrl: link,
         source: sourceName,
-        pubDate: parsedDate,
+        publishedAt: parsedDate,
         imageUrl: imageUrl || DEFAULT_IMAGE,
-        description,
+        summary: description.replace(/<[^>]*>/g, ' ').substring(0, 150) + '...',
       });
     });
 
